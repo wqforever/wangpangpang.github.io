@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>WangPangPang | be hangry be foolish</title>
+  <title>自定义模板 | WangPangPang | be hangry be foolish</title>
 
   
   <meta name="author" content="王琪">
@@ -21,7 +21,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-  
+  <meta property="og:title" content="自定义模板"/>
 
   <meta property="og:site_name" content="WangPangPang"/>
 
@@ -58,12 +58,11 @@
 </header>
 
     <main class="site-main posts-loop">
-    
-  <article>
+    <article>
 
   
     
-    <h3 class="article-title"><a href="/2018/04/14/自定义模板/"><span>自定义模板</span></a></h3>
+    <h3 class="article-title"><span>自定义模板</span></h3>
     
   
 
@@ -113,74 +112,6 @@
 </article>
 
 
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2018/04/14/面试题/"><span>面试题</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2018/04/14/面试题/" rel="bookmark">
-        <time class="entry-date published" datetime="2018-04-14T01:21:07.000Z">
-          2018-04-14
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p><strong>以下都是面试过程中遇到的问题，所以我尽量用口水话来描述，模拟当时的对话环境，因为不可能你给面试官直接看代码啊。</strong></p>
-<h2 id="1-NSString用strong和copy的区别"><a href="#1-NSString用strong和copy的区别" class="headerlink" title="1.NSString用strong和copy的区别"></a>1.NSString用strong和copy的区别</h2><p>strong只是引用计数器+1，地址没变，copy是地址重新拷贝了一份</p>
-<h2 id="2-delegate和block的区别"><a href="#2-delegate和block的区别" class="headerlink" title="2.delegate和block的区别"></a>2.delegate和block的区别</h2><p>这个虽然经常使用，被面试问到时，感觉不好用口水话直接说出来。<br>block是代码块，需要用的时候要从栈内存拷贝到堆内存，缺点是容易引起循环引用，可读性较好，效率高。<br>delegate只是保存了一个回调指针，要用时直接查表，消耗比block少，缺点是写着比block麻烦，可读性较差。</p>
-<h2 id="3-delegate为什么用weak修饰"><a href="#3-delegate为什么用weak修饰" class="headerlink" title="3.delegate为什么用weak修饰"></a>3.delegate为什么用weak修饰</h2><p>ViewController通过strong指针拥有一个UITableview，tableview的datasource和delegate都是weak指针，指向ViewController，防止循环引用</p>
-<h2 id="4-block为什么用copy修饰，为什么会产生循环引用，怎么解决"><a href="#4-block为什么用copy修饰，为什么会产生循环引用，怎么解决" class="headerlink" title="4.block为什么用copy修饰，为什么会产生循环引用，怎么解决"></a>4.block为什么用copy修饰，为什么会产生循环引用，怎么解决</h2><p>默认情况下，block是存档在栈中，可能被随时回收，通过copy操作可以使其在堆中保留一份, 相当于一直强引用着, 因此如果block中用到self时, 需要将其弱化, 通过<strong>weak或者</strong>unsafe_unretained.<br>A类持有block，block又持有A类，就会产生循环引用，还有可能多个类之间循环。<br>解决方案两个，一个是通过<strong>weak来修饰block，另一个方法是在block使用完之后主动把block==nil<br>新增block高级问题：<br>block的类型：<br>NSGlobalBlock<br>block 内部没有引用外部变量的 Block 类型都是 NSGlobalBlock 类型，存储于全局数据区，由系统管理其内存，retain、copy、release操作都无效。<br>NSStackBlock<br>block 内部引用外部变量，retain、release 操作无效，存储于栈区，变量作用域结束时，其被系统自动释放销毁。MRC 环境下，[[mutableAarry addObject: blockA]，（在arc中不用担心此问题，因为arc中会默认将实例化的block拷贝到堆上）在其所在作用域结束也就是函数出栈后，从mutableAarry中取到的blockA已经被回收，变成了野指针。正确的做法是先将blockA copy到堆上，然后加入数组。支持copy，copy之后生成新的NSMallocBlock类型对象。<br>NSMallocBlock<br>存储于堆区，支持retain、release，虽然 retainCount 始终是 1，但内存管理器中仍然会增加、减少计数，当引用计数为零的时候释放（可多次retain、release 操作验证）。copy之后不会生成新的对象，只是增加了一次引用，类似retain，尽量不要对Block使用retain操作。
-</strong>block原理：<br>对象在block中复制了一份，转换成了<strong>Block_byref_val_0这样的结构体。没有用</strong>block修饰的变量，不能被捕获修改。<br><strong>block与</strong>weak的区别：<br><strong>weak本身是可以避免循环引用的问题的，但是其会导致外部对象释放了之后，block 内部也访问不到这个对象的问题，我们可以通过在 block 内部声明一个</strong>strong的变量来指向 weakObj，使外部对象既能在 block 内部保持住，又能避免循环引用的问题。</p>
-<p><strong>block本身无法避免循环引用的问题，但是我们可以通过在 block 内部手动把 blockObj 赋值为 nil 的方式来避免循环引用的问题。另外一点就是</strong>block修饰的变量在 block 内外都是唯一的，要注意这个特性可能带来的隐患。<br>但是<strong>block有一点：这只是限制在ARC环境下。在非arc下，</strong>block是可以避免引用循环的</p>
-<h2 id="5-tableview为什么会卡顿，怎么解决"><a href="#5-tableview为什么会卡顿，怎么解决" class="headerlink" title="5.tableview为什么会卡顿，怎么解决"></a>5.tableview为什么会卡顿，怎么解决</h2><p>1.提前计算并缓存好高度，因为heightForRow最频繁的调用。<br>2.异步绘制，遇到复杂界面，性能瓶颈时，可能是突破口。<br>3.滑动时按需加载，这个在大量图片展示，网络加载时，很管用。（SDWebImage已经实现异步加载）。<br>4.重用cells。<br>5.如果cell内显示得内容来自web，使用异步加载，缓存结果请求。<br>6.少用或不用透明图层，使用不透明视图。<br>7.尽量使所有的view opaque，包括cell本身。<br>8.减少subViews<br>9.少用addView给cell动态添加view，可以初始化的时候就添加，然后通过hide控制是否显示。</p>
-<p>这个问题老生常谈，其实就一句话，减少cell里的操作，不管是计算还是渲染。</p>
-<h2 id="6-app如何优化"><a href="#6-app如何优化" class="headerlink" title="6.app如何优化"></a>6.app如何优化</h2><p>1、网络性能优化<br>2、内存优化<br>3、卡顿，一般检测runloop里一个循环超过2s就说明卡顿了，需要检查：网络同步请求，I/O操作，大量运算，解压缩等<br>4、离屏渲染，减少圆角、透明、阴影、光栅化、遮罩、渐变等操作<br>5、重用大开销的对象，NSDateFormat<br>6、app启动加速</p>
-<h2 id="7-如何检测内存泄漏，怎么处理，oc如何管理内存等"><a href="#7-如何检测内存泄漏，怎么处理，oc如何管理内存等" class="headerlink" title="7.如何检测内存泄漏，怎么处理，oc如何管理内存等"></a>7.如何检测内存泄漏，怎么处理，oc如何管理内存等</h2><p>使用instrument，定位到内存泄漏的地方<br>1、循环引用<br>2、无限循环<br>3、NSNotificationCenter，KVO 问题，需要在dealloc移除<br>4、NSTimer Animator 需要在dealloc停止</p>
-<h2 id="8-如何解决崩溃"><a href="#8-如何解决崩溃" class="headerlink" title="8.如何解决崩溃"></a>8.如何解决崩溃</h2><p>利用runtime把容易的崩溃的方法做易错处理后更换。</p>
-<h2 id="9-app安全性"><a href="#9-app安全性" class="headerlink" title="9.app安全性"></a>9.app安全性</h2><p>用https，信息加密，代码混淆等</p>
-<h2 id="10-数据缓存"><a href="#10-数据缓存" class="headerlink" title="10.数据缓存"></a>10.数据缓存</h2><p>归解档<br>NSUserDefaults<br>plist<br>sqlite</p>
-<h2 id="11-timer准不准，如何弄一个准确的timer"><a href="#11-timer准不准，如何弄一个准确的timer" class="headerlink" title="11.timer准不准，如何弄一个准确的timer"></a>11.timer准不准，如何弄一个准确的timer</h2><p>不准，当程序卡顿runloop有卡顿的时候，timer会停止计数<br>使用mach内核级的函数可以使用mach_absolute_time()获取到CPU的tickcount的计数值可以实现准确的timer</p>
-<h2 id="12-oc字典的实现原理，扩容原理"><a href="#12-oc字典的实现原理，扩容原理" class="headerlink" title="12.oc字典的实现原理，扩容原理"></a>12.oc字典的实现原理，扩容原理</h2><p>底层是用hash表来实现的，扩容是当负载因子达到0.75-1的时候，hash表会扩容一倍，数量会是在2^n-1<br>以上是我这2周面试来有印象的几个问题，每个问题都可以引申出很多问题，如果只了解一点，是会被问懵逼的。</p>
-<p>还有一些问题，比如你为什么辞职，你平时通过什么学习，你有github 博客吗，你自己的发展路径等等这些问题，见仁见智，主要就是考察你的学习性，主观能动性，还有解决问题的能力。只要回答的方向能展示出你的这些能力还是很受面试官的青睐的。<br>这两周，有4个面试，拿了3个offer，有一个是做视频的，对视频处理不是特别了解，所以挂了，普遍都聊到了，iOS可能现在比较饱和，企业想招的人都是3-5年的，以后趋势基本是大前端的趋势。也是对自己以后学习的方向有一个确定吧，以iOS为中心，先学习前端再安卓，不能一棵树吊死了。<del>毕竟苹果药丸每年都在说，哈哈。</del></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-
-
-
-<nav class="pagination">
-  
-  
-</nav>
     </main>
 
     <footer class="site-footer">
