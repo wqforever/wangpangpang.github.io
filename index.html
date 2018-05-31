@@ -63,6 +63,104 @@
 
   
     
+    <h3 class="article-title"><a href="/2018/05/31/编译ijkplayer遇到的坑/"><span>编译ijkplayer遇到的坑</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2018/05/31/编译ijkplayer遇到的坑/" rel="bookmark">
+        <time class="entry-date published" datetime="2018-05-31T00:46:25.000Z">
+          2018-05-31
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>如果要支持https的播放需要编译openssl这个文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"># 进入到刚刚新建的文件夹内 </span><br><span class="line">cd ~/Desktop/ijkplayer/ </span><br><span class="line"># 获取ijkplayer源码 </span><br><span class="line">git clone https://github.com/Bilibili/ijkplayer.git ijkplayer-ios </span><br><span class="line"># 进入源码目录 </span><br><span class="line">cd ijkplayer-ios </span><br><span class="line"># 切换分支 (目前为k0.8.8, 可以自行去GitHub查看最新版本号) </span><br><span class="line">git checkout -B latest k0.8.8</span><br><span class="line"></span><br><span class="line">./init-ios.sh</span><br><span class="line">./init-openssl.sh</span><br><span class="line"></span><br><span class="line">cd ios </span><br><span class="line"># 在模块文件中添加一行配置 以启用 openssl 组件 </span><br><span class="line">echo &apos;export COMMON_FF_CFG_FLAGS=&quot;$COMMON_FF_CFG_FLAGS --enable-openssl&quot;&apos; &gt;&gt; ../config/module.sh ./compile-ffmpeg.sh clean</span><br><span class="line"></span><br><span class="line">./compile-openssl.sh all</span><br><span class="line"></span><br><span class="line"># 编译ffmpeg</span><br><span class="line">./compile-ffmpeg.sh all</span><br><span class="line"></span><br><span class="line">open IJKMediaPlayer/IJKMediaPlayer.xcodeproj</span><br><span class="line">#选择libcrypto.a和libssl.a加入库</span><br><span class="line">#在模拟器和真机分别编译</span><br><span class="line">#run模式切换为release</span><br><span class="line"></span><br><span class="line">#合并模拟器和真机的包</span><br><span class="line">lipo -create Release-iphoneos/IJKMediaFramework.framework/IJKMediaFramework Release-iphonesimulator/IJKMediaFramework.framework/IJKMediaFramework -output IJKMediaFramework</span><br></pre></td></tr></table></figure>
+<p>依赖库<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">1.	libc++.tbd ( 编译器选 gcc 的请导入 libstdc++.tbd )</span><br><span class="line">2.	libz.tbd</span><br><span class="line">3.	libbz2.tbd</span><br><span class="line">4.	AudioToolbox.framework</span><br><span class="line">5.	UIKit.framework</span><br><span class="line">6.	CoreGraphics.framework</span><br><span class="line">7.	AVFoundation.framework</span><br><span class="line">8.	CoreMedia.framework</span><br><span class="line">9.	CoreVideo.framework</span><br><span class="line">10.	MediaPlayer.framework</span><br><span class="line">11.	MobileCoreServices.framework</span><br><span class="line">12.	OpenGLES.framework</span><br><span class="line">13.	QuartzCore.framework</span><br><span class="line">14.	VideoToolbox.framework</span><br></pre></td></tr></table></figure></p>
+<p>支持armv7 需要xcode7以下的编译，从官网下一个xcode7，让两个xcode并存，切换xcode<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo xcode-select -s /Applications/Xcode5.0.2/Xcode.app/Contents/Developer</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2018/05/29/SVProgress替换默认图片/"><span>SVProgress替换默认图片</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2018/05/29/SVProgress替换默认图片/" rel="bookmark">
+        <time class="entry-date published" datetime="2018-05-29T07:45:55.000Z">
+          2018-05-29
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>美工给了个旋转图标，但是只有一张图，要在SVProgress里替换图片只有一个方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[SVProgressHUD showImage:image status:text];</span><br></pre></td></tr></table></figure></p>
+<p>如果只放一张图他是不会动的，所以需要一个gif动图效果才行，所以我把那张图片顺时针旋转了一圈，然后按角度等比例截图成新图片，组成一个动图添加进<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[UIImage animatedImageWithImages:images duration:2];</span><br></pre></td></tr></table></figure></p>
+<p>这样就相当于它是转起来了</p>
+<p>截图代码，我是转一圈设置的2s，由于屏幕的刷新频率是60，所以生成了120张图，但是好像60张也感觉不出明显的卡顿。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//将一张图片变成连续的动图</span><br><span class="line">+ (NSArray *)changeImageToArrayImage:(UIImage *)image &#123;</span><br><span class="line">    NSMutableArray *images = [[NSMutableArray alloc]init];</span><br><span class="line">    </span><br><span class="line">    NSInteger count = 120;</span><br><span class="line">    for (int i = 0; i &lt; count; i++) &#123;</span><br><span class="line">        float angle = M_PI * 2 / count * i;</span><br><span class="line">        UIImage *newImage = [image imageByRotate:angle fitSize:NO];</span><br><span class="line">        [images addObject:newImage];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return images.copy;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2018/05/28/YYTextView修改UIMenuController/"><span>YYTextView修改UIMenuController</span></a></h3>
     
   
