@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives: 2018/7 | WangPangPang | be hangry be foolish</title>
+  <title>日历 | WangPangPang | be hangry be foolish</title>
 
   
   <meta name="author" content="王琪">
@@ -21,7 +21,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-  
+  <meta property="og:title" content="日历"/>
 
   <meta property="og:site_name" content="WangPangPang"/>
 
@@ -58,43 +58,54 @@
 </header>
 
     <main class="site-main posts-loop">
-    
+    <article>
 
-<article>
-
-  <h2 class="article-title ">2018/7</h2>
-
-  <div class="archive">
-    
-      <div class="post archive">
-        <div class="archive-post">
-          <time datetime="2018-07-17T03:27:06.000Z">
-            <a href="/2018/07/17/日历/">2018-07-17</a>
-          </time>
-          
-            <h3 class="archive-title"><a href="/2018/07/17/日历/"><span>日历</span></a></h3>
-          
-        </div>
-      </div>
-    
-      <div class="post archive">
-        <div class="archive-post">
-          <time datetime="2018-07-16T05:49:30.000Z">
-            <a href="/2018/07/16/遇到的坑/">2018-07-16</a>
-          </time>
-          
-            <h3 class="archive-title"><a href="/2018/07/16/遇到的坑/"><span>遇到的坑</span></a></h3>
-          
-        </div>
-      </div>
-    
-    <nav class="pagination">
   
+    
+    <h3 class="article-title"><span>日历</span></h3>
+    
   
-</nav>
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2018/07/17/日历/" rel="bookmark">
+        <time class="entry-date published" datetime="2018-07-17T03:27:06.000Z">
+          2018-07-17
+        </time>
+      </a>
+    </span>
   </div>
 
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>最近有个任务是写日历，记录一下遇到的坑，获取星期返回的数字，从星期日开始，星期六结束，对应数字1-7.</p>
+<p>计算“yyyy-MM-dd”的时间戳是在当天0点，如果要获取这天结尾需要+1天。</p>
+<p>遍历整个日历是直接遍历整个collectionview的indexpath，不要分区遍历，不然头尾衔接不上</p>
+<p>关于合并两个相邻日期的详情文字，只有覆盖一层view，通过遍历整个collectionview的indexpath，获取需要遍历的indexpath，然后计算坐标，在到maskview上添加合并的文字，并取消collectionview里的文字。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
+  </div>
 </article>
+
+
     </main>
 
     <footer class="site-footer">
